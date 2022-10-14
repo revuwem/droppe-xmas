@@ -1,9 +1,22 @@
+:root {
+  --container-padding: 6.4rem;
+  --shadow-color: rgba(0, 0, 0, 0.05);
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-size: 62.5%; /* reset font size to 10px */
+}
+
+@media (max-width: 768px) {
+  html,
+  body {
+    font-size: 50%;
+  }
 }
 
 a {
