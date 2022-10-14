@@ -1,6 +1,5 @@
 .product {
   width: 100%;
-  max-width: 73rem;
   padding: 1.2rem 1.2rem 1.6rem;
   display: grid;
   grid-template-columns: 10rem 1fr auto;
