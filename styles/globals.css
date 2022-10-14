@@ -3,6 +3,14 @@
 :root {
   --container-padding: 6.4rem;
   --shadow-color: rgba(0, 0, 0, 0.05);
+  --color-green-light: #dbf0ec;
+  --color-green-dark: #255b50;
+  --color-grey-dark: #5c5c5c;
+  --color-grey-light: #f5f5f5;
+  --color-black: #1c1c1c;
+  --color-heading: var(--color-green-dark);
+  --color-text-grey: var(--color-grey-dark);
+  --color-text-black: var(--color-black);
 }
 
 html,
