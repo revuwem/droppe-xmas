@@ -3,3 +3,7 @@
   display: grid;
   grid-template-rows: 6.4rem 1fr 9rem;
 }
+
+.main {
+  padding: 3.2rem 6.4rem 4.8rem;
+}

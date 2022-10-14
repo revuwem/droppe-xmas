@@ -16,7 +16,7 @@ const Layout: React.FC<ILayoutProps> = ({ children }) => {
       </Head>
       <div className={styles.layout}>
         <Header />
-        <main>{children}</main>
+        <main className={styles.main}>{children}</main>
         <Footer />
       </div>
     </>
