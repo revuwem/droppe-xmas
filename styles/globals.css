@@ -11,6 +11,7 @@
   --color-heading: var(--color-green-dark);
   --color-text-grey: var(--color-grey-dark);
   --color-text-black: var(--color-black);
+  --border-radius: 6px;
 }
 
 html,
@@ -38,4 +39,15 @@ a {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+.pageContainer {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 6.4rem;
+}
+
+.list {
+  display: grid;
+  row-gap: 3.2rem;
 }
