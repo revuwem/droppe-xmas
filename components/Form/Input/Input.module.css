@@ -1,0 +1,14 @@
+.input {
+  padding: 0.8rem 1.2rem 1rem;
+  border: 2px solid var(--color-grey-light);
+  border-radius: var(--border-radius);
+  outline: none;
+  transition: 0.2s;
+  color: var(--color-black);
+}
+
+.input:hover,
+.input:focus,
+.input:active {
+  border-color: var(--color-green-light);
+}
