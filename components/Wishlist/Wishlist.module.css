@@ -1,0 +1,28 @@
+.wishlist {
+  max-width: 730px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 1.2rem 1.6rem;
+  background-color: #f8fcfb;
+  border-radius: 6px;
+}
+
+.title {
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: var(--color-text-black);
+}
+
+.userControls {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.list {
+  display: grid;
+  row-gap: 2.4rem;
+}
