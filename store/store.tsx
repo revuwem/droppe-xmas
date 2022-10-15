@@ -15,7 +15,7 @@ interface IWishlistState {
   updateWishlist: (id: number, isApproved: boolean) => void;
   updateWishlistItem: (
     wishlistId: number,
-    itemId: number,
+    productId: number,
     isApproved: boolean
   ) => void;
   setFilterPriceMin: (price: number) => void;
@@ -57,7 +57,28 @@ export const useWishlistStore = create<IWishlistState>()((set, get) => ({
       ],
     }));
   },
-  updateWishlistItem: (id: number) => {},
+  updateWishlistItem: (
+    wishlistId: number,
+    productId: number,
+    isApproved: boolean
+  ) => {
+    set((state) => ({
+      wishlists: state.wishlists.map((list) => {
+        if (list.id === wishlistId) {
+          return {
+            ...list,
+            products: list.products.map((item) => {
+              if (item.productId === productId) {
+                return { ...item, isApproved };
+              }
+              return item;
+            }),
+          };
+        }
+        return list;
+      }),
+    }));
+  },
   setFilterPriceMin: (price) => set({ filterPriceMin: price }),
   setFilterPriceMax: (price) => set({ filterPriceMax: price }),
 }));

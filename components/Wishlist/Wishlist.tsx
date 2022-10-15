@@ -3,6 +3,7 @@ import Product from "../Product";
 import Button from "../Button";
 import styles from "./Wishlist.module.css";
 import SystemMessage from "../SystemMessage";
+import { useWishlistStore } from "../../store/store";
 
 interface IWishlistProps {
   id: number;
@@ -12,18 +13,26 @@ interface IWishlistProps {
 }
 
 const Wishlist: React.FC<IWishlistProps> = ({
-  id,
+  id: wishlistId,
   products,
   onApproveAll,
   onDiscardAll,
 }) => {
-  const onButtonApproveAllClick = () => onApproveAll(id);
-  const onButtonDiscardAllClick = () => onDiscardAll(id);
+  const updateWishlistItem = useWishlistStore(
+    (state) => state.updateWishlistItem
+  );
+  const onApproveWishlistItem = (id: number) =>
+    updateWishlistItem(wishlistId, id, true);
+  const onDiscardWishlistItem = (id: number) =>
+    updateWishlistItem(wishlistId, id, false);
+
+  const onButtonApproveAllClick = () => onApproveAll(wishlistId);
+  const onButtonDiscardAllClick = () => onDiscardAll(wishlistId);
 
   return (
     <div className={styles.wishlist}>
       <div className={styles.header}>
-        <h3 className={styles.title}>Kid {id} wishlist</h3>
+        <h3 className={styles.title}>Kid {wishlistId} wishlist</h3>
         <div className={styles.userControls}>
           <Button onClick={onButtonDiscardAllClick} type="outlined">
             Discard All
@@ -35,7 +44,12 @@ const Wishlist: React.FC<IWishlistProps> = ({
       <ul className={styles.list}>
         {products.length > 0 ? (
           products.map((item) => (
-            <Product key={item.productId} product={item} />
+            <Product
+              key={item.productId}
+              product={item}
+              onApprove={onApproveWishlistItem}
+              onDiscard={onDiscardWishlistItem}
+            />
           ))
         ) : (
           <SystemMessage>
