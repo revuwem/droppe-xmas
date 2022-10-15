@@ -8,37 +8,32 @@ import { useWishlistStore } from "../../store/store";
 interface IWishlistProps {
   id: number;
   products: ProductT[];
-  onApproveAll: (id: number) => void;
-  onDiscardAll: (id: number) => void;
 }
 
-const Wishlist: React.FC<IWishlistProps> = ({
-  id: wishlistId,
-  products,
-  onApproveAll,
-  onDiscardAll,
-}) => {
+const Wishlist: React.FC<IWishlistProps> = ({ id: wishlistId, products }) => {
   const updateWishlistItem = useWishlistStore(
     (state) => state.updateWishlistItem
   );
+  const updateWishlist = useWishlistStore((state) => state.updateWishlist);
+
+  const onApproveWishlist = () => updateWishlist(wishlistId, true);
+  const onDiscardWishlist = () => updateWishlist(wishlistId, false);
+
   const onApproveWishlistItem = (id: number) =>
     updateWishlistItem(wishlistId, id, true);
   const onDiscardWishlistItem = (id: number) =>
     updateWishlistItem(wishlistId, id, false);
-
-  const onButtonApproveAllClick = () => onApproveAll(wishlistId);
-  const onButtonDiscardAllClick = () => onDiscardAll(wishlistId);
 
   return (
     <div className={styles.wishlist}>
       <div className={styles.header}>
         <h3 className={styles.title}>Kid {wishlistId} wishlist</h3>
         <div className={styles.userControls}>
-          <Button onClick={onButtonDiscardAllClick} type="outlined">
+          <Button onClick={onDiscardWishlist} type="outlined">
             Discard All
           </Button>
 
-          <Button onClick={onButtonApproveAllClick}>Approve All Gifts</Button>
+          <Button onClick={onApproveWishlist}>Approve All Gifts</Button>
         </div>
       </div>
       <ul className={styles.list}>

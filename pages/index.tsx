@@ -30,7 +30,6 @@ const Home: NextPage = () => {
   const updateAllWishlists = useWishlistStore(
     (state) => state.updateAllWishlists
   );
-  const updateWishlist = useWishlistStore((state) => state.updateWishlist);
 
   const setFilterPriceMin = useWishlistStore(
     (state) => state.setFilterPriceMin
@@ -44,8 +43,6 @@ const Home: NextPage = () => {
   }, []);
 
   const onApproveAllWishlistsClick = () => updateAllWishlists(true);
-  const onApproveWishlist = (id: number) => updateWishlist(id, true);
-  const onDiscardWishlist = (id: number) => updateWishlist(id, false);
 
   const onFilterPriceFormSubmit = ({
     min,
@@ -89,8 +86,6 @@ const Home: NextPage = () => {
                     key={item.id}
                     id={item.id}
                     products={item.products}
-                    onApproveAll={onApproveWishlist}
-                    onDiscardAll={onDiscardWishlist}
                   />
                 ))
               : null}
