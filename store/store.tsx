@@ -2,7 +2,7 @@ import create from "zustand";
 import { getAllWishlists } from "../services/api";
 import { Wishlist } from "../types/Wishlist";
 
-interface IWishlistState {
+export interface IWishlistState {
   wishlists: Wishlist[];
   approved: Wishlist[];
   discarded: Wishlist[];

@@ -5,32 +5,19 @@ import Button from "../components/Button";
 import FilterPriceForm from "../components/FilterPriceForm";
 import LoadingIndicator from "../components/LoadingIndicator";
 import ErrorIndicator from "../components/ErrorIndicator";
-import { useWishlistStore } from "../store/store";
-import styles from "../styles/Home.module.css";
 import SystemMessage from "../components/SystemMessage";
+import { useWishlistStore } from "../store/store";
+import { wishlistSelector } from "../store/selectors";
+import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
   const loading = useWishlistStore((state) => state.loading);
   const error = useWishlistStore((state) => state.error);
-  const wishlists = useWishlistStore((state) => {
-    if (state.filterPriceMin || state.filterPriceMax) {
-      return state.wishlists.map((wishlist) => ({
-        ...wishlist,
-        products: wishlist.products.filter(
-          (item) =>
-            item.details.price >= state.filterPriceMin &&
-            item.details.price <= state.filterPriceMax
-        ),
-      }));
-    }
-
-    return state.wishlists;
-  });
+  const wishlists = useWishlistStore(wishlistSelector);
   const getAllWishlists = useWishlistStore((state) => state.getAllWishlists);
   const updateAllWishlists = useWishlistStore(
     (state) => state.updateAllWishlists
   );
-
   const setFilterPriceMin = useWishlistStore(
     (state) => state.setFilterPriceMin
   );
