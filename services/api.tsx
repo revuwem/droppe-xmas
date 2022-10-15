@@ -1,22 +1,31 @@
-import { WishlistProduct } from "../types/Wishlist";
+import { Product, Wishlist } from "../types/Wishlist";
 
-const getAllWishlists = async () =>
-  await fetch("https://fakestoreapi.com/carts?limit=5").then((res) =>
-    res.json()
+const getAllWishlists = async () => {
+  const data = await fetch("https://fakestoreapi.com/carts?limit=5").then(
+    (res) => res.json()
   );
 
-const getProductsData = async (list: WishlistProduct[]) => {
-  const allResponses = await Promise.all(
-    list.map((item) =>
-      fetch(`https://fakestoreapi.com/products/${item.productId}`)
-    )
+  // walk through all wishlists and fetch details for each wishlist product
+  const detailedData = await Promise.all(
+    data.map(async (el: Wishlist) => {
+      const productWithDetails = await Promise.all(
+        el.products.map(async (item) => await getProductData(item))
+      );
+
+      return { ...el, products: productWithDetails };
+    })
   );
 
-  const allResponsesJSON = await Promise.all(
-    allResponses.map((res) => res.json())
-  );
-
-  return [...allResponsesJSON];
+  return detailedData;
 };
 
-export { getAllWishlists, getProductsData };
+const getProductData = async (product: Product) => {
+  const id = product.productId;
+  const data = await fetch(`https://fakestoreapi.com/products/${id}`).then(
+    (res) => res.json()
+  );
+
+  return { ...product, details: data };
+};
+
+export { getAllWishlists };
