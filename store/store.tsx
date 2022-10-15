@@ -9,6 +9,7 @@ interface IWishlistState {
   loading: boolean;
   error: string;
   getAllWishlists: () => void;
+  updateAllWishlists: (isApproved: boolean) => void;
   updateWishlist: (id: number, isApproved: boolean) => void;
   updateWishlistItem: (
     wishlistId: number,
@@ -28,16 +29,20 @@ export const useWishlistStore = create<IWishlistState>()((set, get) => ({
       .then((data) => set({ wishlists: data, loading: false }))
       .catch((err) => set({ error: err, loading: false }));
   },
-  updateWishlist: (id: number, isApproved: boolean) => {
-    const wishlistIdx = get().wishlists.findIndex(
-      (wishlist) => wishlist.id === id
+  updateAllWishlists: (isApproved: boolean) => {
+    const wishlists = get().wishlists;
+    const newWishlists = wishlists.map((item) =>
+      getUpdatedWishlist(wishlists, item.id, isApproved)
     );
-    const newWishlist = get().wishlists[wishlistIdx];
-    newWishlist.products = newWishlist.products.map((item) => ({
-      ...item,
-      isApproved,
-    }));
 
+    set(() => ({
+      wishlists: newWishlists,
+    }));
+  },
+  updateWishlist: (id: number, isApproved: boolean) => {
+    const wishlists = get().wishlists;
+    const wishlistIdx = wishlists.findIndex((wishlist) => wishlist.id === id);
+    const newWishlist = getUpdatedWishlist(wishlists, id, isApproved);
     set((state) => ({
       wishlists: [
         ...state.wishlists.slice(0, wishlistIdx),
@@ -48,3 +53,18 @@ export const useWishlistStore = create<IWishlistState>()((set, get) => ({
   },
   updateWishlistItem: (id: number) => {},
 }));
+
+const getUpdatedWishlist = (
+  wishlists: Wishlist[],
+  id: number,
+  isApproved: boolean
+) => {
+  const wishlistIdx = wishlists.findIndex((wishlist) => wishlist.id === id);
+  const newWishlist = wishlists[wishlistIdx];
+  newWishlist.products = newWishlist.products.map((item) => ({
+    ...item,
+    isApproved,
+  }));
+
+  return newWishlist;
+};

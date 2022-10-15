@@ -11,22 +11,30 @@ import styles from "../styles/Home.module.css";
 import SystemMessage from "../components/SystemMessage";
 
 const Home: NextPage = () => {
-  const { wishlists, loading, error, getAllWishlists, updateWishlist } =
-    useWishlistStore(
-      (state) => ({
-        wishlists: state.wishlists,
-        loading: state.loading,
-        error: state.error,
-        getAllWishlists: state.getAllWishlists,
-        updateWishlist: state.updateWishlist,
-      }),
-      shallow
-    );
+  const {
+    wishlists,
+    loading,
+    error,
+    getAllWishlists,
+    updateAllWishlists,
+    updateWishlist,
+  } = useWishlistStore(
+    (state) => ({
+      wishlists: state.wishlists,
+      loading: state.loading,
+      error: state.error,
+      getAllWishlists: state.getAllWishlists,
+      updateAllWishlists: state.updateAllWishlists,
+      updateWishlist: state.updateWishlist,
+    }),
+    shallow
+  );
 
   useEffect(() => {
     getAllWishlists();
   }, []);
 
+  const onApproveAllWishlistsClick = () => updateAllWishlists(true);
   const onApproveWishlist = (id: number) => updateWishlist(id, true);
   const onDiscardWishlist = (id: number) => updateWishlist(id, false);
   const onFilterPriceFormSubmit = () => console.log("submit filter price");
@@ -39,7 +47,9 @@ const Home: NextPage = () => {
         <div className="content">
           <div className={styles.controls}>
             <FilterPriceForm onSubmit={onFilterPriceFormSubmit} />
-            <Button onClick={() => {}}>Approve all Wishlists</Button>
+            <Button onClick={onApproveAllWishlistsClick}>
+              Approve all Wishlists
+            </Button>
           </div>
           <div className="list">
             {loading && <LoadingIndicator />}
