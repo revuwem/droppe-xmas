@@ -11,7 +11,7 @@
   max-width: 100%;
   height: 7.2rem;
   margin: 0 auto;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .title {
@@ -25,6 +25,7 @@
   font-size: 1.2rem;
   color: var(--color-text-grey);
   margin-bottom: 1.2rem;
+  text-transform: capitalize;
 }
 
 .price {
@@ -33,6 +34,18 @@
   text-align: right;
   color: var(--color-text-black);
   margin-bottom: 1.2rem;
+}
+
+.status {
+  font-size: 1.2rem;
+}
+
+.status.approved {
+  color: var(--color-success);
+}
+
+.status.discarded {
+  color: var(--color-warning);
 }
 
 .userControls {

@@ -1,4 +1,5 @@
-import { Product } from "../../types/Product";
+import { useEffect, useMemo, useState } from "react";
+import { Product } from "../../types/Wishlist";
 import Button from "../Button";
 import styles from "./Product.module.css";
 
@@ -13,10 +14,13 @@ const Product: React.FC<IProductProps> = ({
   onApprove,
   onDiscard,
 }) => {
-  const { id, title, price, category, image, rating } = product;
+  const { productId, quantity, details, isApproved } = product;
+  const { image, title, category, rating, price } = details;
 
-  const onButtonApproveClick = () => onApprove && onApprove(id);
-  const onButtonDiscardClick = () => onDiscard && onDiscard(id);
+  const totalPrice = useMemo(() => price * quantity, [price, quantity]);
+
+  const onButtonApproveClick = () => onApprove && onApprove(productId);
+  const onButtonDiscardClick = () => onDiscard && onDiscard(productId);
 
   return (
     <li className={styles.product}>
@@ -24,16 +28,31 @@ const Product: React.FC<IProductProps> = ({
       <div>
         <h4 className={styles.title}>{title}</h4>
         <p className={styles.details}>
-          {category} {rating.rate} / 5
+          {category} | Rate: {rating.rate} / 5 | Qty: {quantity}
+        </p>
+        <p
+          className={`${styles.status} ${
+            isApproved ? styles.approved : styles.discarded
+          }`}
+        >
+          {typeof isApproved !== "undefined"
+            ? isApproved
+              ? "Approved"
+              : "Discarded"
+            : null}
         </p>
       </div>
       <div>
-        <p className={styles.price}>€{price}</p>
+        <p className={styles.price}>€{totalPrice}</p>
         <div className={styles.userControls}>
-          <Button onClick={onButtonDiscardClick} type="outlined">
-            Discard
-          </Button>
-          <Button onClick={onButtonApproveClick}>Approve</Button>
+          {(typeof isApproved === "undefined" || isApproved) && (
+            <Button onClick={onButtonDiscardClick} type="outlined">
+              Discard
+            </Button>
+          )}
+          {(typeof isApproved === "undefined" || !isApproved) && (
+            <Button onClick={onButtonApproveClick}>Approve</Button>
+          )}
         </div>
       </div>
     </li>
