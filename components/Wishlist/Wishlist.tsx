@@ -2,6 +2,7 @@ import { Product as ProductT } from "../../types/Wishlist";
 import Product from "../Product";
 import Button from "../Button";
 import styles from "./Wishlist.module.css";
+import SystemMessage from "../SystemMessage";
 
 interface IWishlistProps {
   id: number;
@@ -32,9 +33,15 @@ const Wishlist: React.FC<IWishlistProps> = ({
         </div>
       </div>
       <ul className={styles.list}>
-        {products.map((item) => (
-          <Product key={item.productId} product={item} />
-        ))}
+        {products.length > 0 ? (
+          products.map((item) => (
+            <Product key={item.productId} product={item} />
+          ))
+        ) : (
+          <SystemMessage>
+            No products found. Try change or reset filter
+          </SystemMessage>
+        )}
       </ul>
     </div>
   );

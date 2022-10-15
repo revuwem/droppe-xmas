@@ -8,6 +8,8 @@ interface IWishlistState {
   discarded: Wishlist[];
   loading: boolean;
   error: string;
+  filterPriceMin: number;
+  filterPriceMax: number;
   getAllWishlists: () => void;
   updateAllWishlists: (isApproved: boolean) => void;
   updateWishlist: (id: number, isApproved: boolean) => void;
@@ -16,6 +18,8 @@ interface IWishlistState {
     itemId: number,
     isApproved: boolean
   ) => void;
+  setFilterPriceMin: (price: number) => void;
+  setFilterPriceMax: (price: number) => void;
 }
 
 export const useWishlistStore = create<IWishlistState>()((set, get) => ({
@@ -24,6 +28,8 @@ export const useWishlistStore = create<IWishlistState>()((set, get) => ({
   discarded: [],
   loading: true,
   error: "",
+  filterPriceMin: 0,
+  filterPriceMax: 0,
   getAllWishlists: async () => {
     getAllWishlists()
       .then((data) => set({ wishlists: data, loading: false }))
@@ -52,6 +58,8 @@ export const useWishlistStore = create<IWishlistState>()((set, get) => ({
     }));
   },
   updateWishlistItem: (id: number) => {},
+  setFilterPriceMin: (price) => set({ filterPriceMin: price }),
+  setFilterPriceMax: (price) => set({ filterPriceMax: price }),
 }));
 
 const getUpdatedWishlist = (
