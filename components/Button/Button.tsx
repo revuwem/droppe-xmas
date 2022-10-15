@@ -4,7 +4,7 @@ type ButtonType = "solid" | "outlined";
 
 interface IButtonProps {
   children: React.ReactNode;
-  onClick: () => void;
+  onClick: (e: any) => void;
   type?: ButtonType;
 }
 
