@@ -1,20 +1,34 @@
 import type { NextPage } from "next";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Wishlist from "../components/Wishlist";
 import Button from "../components/Button";
 import FilterPriceForm from "../components/FilterPriceForm";
-import { Wishlist as WishlistT } from "../types/Wishlist";
-import { getAllWishlists } from "../services/api";
+import LoadingIndicator from "../components/LoadingIndicator";
+import ErrorIndicator from "../components/ErrorIndicator";
+import shallow from "zustand/shallow";
+import { useWishlistStore } from "../store/store";
 import styles from "../styles/Home.module.css";
+import SystemMessage from "../components/SystemMessage";
 
 const Home: NextPage = () => {
-  const [wishlistList, setWishlistList] = useState<WishlistT[]>([]);
+  const { wishlists, loading, error, getAllWishlists, updateWishlist } =
+    useWishlistStore(
+      (state) => ({
+        wishlists: state.wishlists,
+        loading: state.loading,
+        error: state.error,
+        getAllWishlists: state.getAllWishlists,
+        updateWishlist: state.updateWishlist,
+      }),
+      shallow
+    );
+
   useEffect(() => {
-    getAllWishlists().then((data) => setWishlistList(data));
+    getAllWishlists();
   }, []);
 
-  const onApproveWishlist = () => console.log("approved all");
-  const onDiscardWishlist = () => console.log("discarded all");
+  const onApproveWishlist = (id: number) => updateWishlist(id, true);
+  const onDiscardWishlist = (id: number) => updateWishlist(id, false);
   const onFilterPriceFormSubmit = () => console.log("submit filter price");
 
   return (
@@ -28,15 +42,22 @@ const Home: NextPage = () => {
             <Button onClick={() => {}}>Approve all Wishlists</Button>
           </div>
           <div className="list">
-            {wishlistList.map((item) => (
-              <Wishlist
-                key={item.id}
-                id={item.id}
-                products={item.products}
-                onApproveAll={onApproveWishlist}
-                onDiscardAll={onDiscardWishlist}
-              />
-            ))}
+            {loading && <LoadingIndicator />}
+            {error && <ErrorIndicator>{error}</ErrorIndicator>}
+            {!loading && wishlists.length === 0 && (
+              <SystemMessage>Wishlists are empty</SystemMessage>
+            )}
+            {wishlists.length > 0
+              ? wishlists.map((item: any) => (
+                  <Wishlist
+                    key={item.id}
+                    id={item.id}
+                    products={item.products}
+                    onApproveAll={onApproveWishlist}
+                    onDiscardAll={onDiscardWishlist}
+                  />
+                ))
+              : null}
           </div>
         </div>
       </div>
