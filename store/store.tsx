@@ -1,6 +1,10 @@
 import create from "zustand";
 import { getAllWishlists } from "../services/api";
 import { Wishlist } from "../types/Wishlist";
+import { calculateDiscount } from "../lib/calculateDiscount";
+import { calculateTotal } from "../lib/calculateTotal";
+import { getWishlistsByStatus } from "../lib/getWishlistsByStatus";
+import { getAllWishlistsProductsCount } from "../lib/getWishlistsProductsCount";
 
 export interface IWishlistState {
   wishlists: Wishlist[];
@@ -10,6 +14,8 @@ export interface IWishlistState {
   error: string;
   filterPriceMin: number;
   filterPriceMax: number;
+  discount: string;
+  total: string;
   getAllWishlists: () => void;
   updateAllWishlists: (isApproved: boolean) => void;
   updateWishlist: (id: number, isApproved: boolean) => void;
@@ -20,6 +26,7 @@ export interface IWishlistState {
   ) => void;
   setFilterPriceMin: (price: number) => void;
   setFilterPriceMax: (price: number) => void;
+  confirmOrder: () => Promise<void>;
 }
 
 export const useWishlistStore = create<IWishlistState>()((set, get) => ({
@@ -30,6 +37,8 @@ export const useWishlistStore = create<IWishlistState>()((set, get) => ({
   error: "",
   filterPriceMin: 0,
   filterPriceMax: 0,
+  discount: "0",
+  total: "0",
   getAllWishlists: async () => {
     getAllWishlists()
       .then((data) => set({ wishlists: data, loading: false }))
@@ -81,6 +90,24 @@ export const useWishlistStore = create<IWishlistState>()((set, get) => ({
   },
   setFilterPriceMin: (price) => set({ filterPriceMin: price }),
   setFilterPriceMax: (price) => set({ filterPriceMax: price }),
+  confirmOrder: () =>
+    new Promise((resolve, reject) => {
+      const uncheckedWishlists = getWishlistsByStatus(
+        get().wishlists,
+        undefined
+      );
+      const uncheckedProductsCount =
+        getAllWishlistsProductsCount(uncheckedWishlists);
+      if (uncheckedProductsCount > 0) reject(uncheckedProductsCount);
+
+      // get approved wishlists
+      const approvedWishlists = getWishlistsByStatus(get().wishlists, true);
+
+      const discount = calculateDiscount(approvedWishlists).toFixed(2);
+      const total = (calculateTotal(approvedWishlists) - discount).toFixed(2);
+      set({ discount, total });
+      resolve();
+    }),
 }));
 
 const getUpdatedWishlist = (
