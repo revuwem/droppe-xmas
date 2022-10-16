@@ -25,7 +25,9 @@ const getProductData = async (product: Product) => {
     (res) => res.json()
   );
 
-  return { ...product, details: data };
+  const totalPrice = data.price * product.quantity;
+
+  return { ...product, totalPrice, details: data };
 };
 
 export { getAllWishlists };

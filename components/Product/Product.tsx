@@ -14,10 +14,8 @@ const Product: React.FC<IProductProps> = ({
   onApprove,
   onDiscard,
 }) => {
-  const { productId, quantity, details, isApproved } = product;
-  const { image, title, category, rating, price } = details;
-
-  const totalPrice = useMemo(() => price * quantity, [price, quantity]);
+  const { productId, quantity, totalPrice, details, isApproved } = product;
+  const { image, title, category, rating } = details;
 
   const onButtonApproveClick = () => onApprove && onApprove(productId);
   const onButtonDiscardClick = () => onDiscard && onDiscard(productId);

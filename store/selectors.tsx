@@ -25,10 +25,7 @@ export const orderDetailsSelector = (state: IWishlistState) => {
   // and calculate amout and total for each wishlist
   const orderDetails = approved.map((item) => {
     const count = item.products.length;
-    const total = item.products.reduce(
-      (sum, prod) => sum + prod.details.price * prod.quantity,
-      0
-    );
+    const total = item.products.reduce((sum, prod) => sum + prod.totalPrice, 0);
     return {
       name: `Kid ${item.id}`,
       count,

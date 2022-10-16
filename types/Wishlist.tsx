@@ -15,6 +15,7 @@ export type Product = {
   productId: number;
   quantity: number;
   details: ProductDetails;
+  totalPrice: number;
   isApproved: boolean | undefined;
 };
 
