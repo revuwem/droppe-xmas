@@ -54,11 +54,11 @@ const Total: React.FC<ITotalProps> = ({ isConfirm = false }) => {
         <ul className={styles.list}>
           <li className={styles.listItem}>
             <span>Discount</span>
-            <span> {orderPriceDetails?.discount}</span>
+            <span> - €{orderPriceDetails?.discount}</span>
           </li>
           <li className={styles.listItem}>
             <span>Total</span>
-            <span> {orderPriceDetails?.total}</span>
+            <span> €{orderPriceDetails?.total}</span>
           </li>
         </ul>
       )}
