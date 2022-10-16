@@ -1,4 +1,3 @@
-import { useEffect, useMemo, useState } from "react";
 import { Product } from "../../types/Wishlist";
 import Button from "../Button";
 import styles from "./Product.module.css";
@@ -42,13 +41,14 @@ const Product: React.FC<IProductProps> = ({
       </div>
       <div>
         <p className={styles.price}>€{totalPrice}</p>
+
         <div className={styles.userControls}>
-          {(typeof isApproved === "undefined" || isApproved) && (
+          {onDiscard && (typeof isApproved === "undefined" || isApproved) && (
             <Button onClick={onButtonDiscardClick} type="outlined">
               Discard
             </Button>
           )}
-          {(typeof isApproved === "undefined" || !isApproved) && (
+          {onApprove && (typeof isApproved === "undefined" || !isApproved) && (
             <Button onClick={onButtonApproveClick}>Approve</Button>
           )}
         </div>
