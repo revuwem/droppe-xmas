@@ -6,6 +6,7 @@ import {
   productsCountSelector,
 } from "../../store/selectors";
 import styles from "./Total.module.css";
+import { useRouter } from "next/router";
 
 interface ITotalProps {
   isConfirm?: boolean;
@@ -17,8 +18,14 @@ const Total: React.FC<ITotalProps> = ({ isConfirm = false }) => {
   const orderPriceDetails = !isConfirm
     ? useWishlistStore(orderPriceDetailsSelector)
     : null;
+  const confirmOrder = useWishlistStore((state) => state.confirmOrder);
+  const router = useRouter();
 
-  const onConfirmButtonClick = () => {};
+  const onConfirmButtonClick = () => {
+    confirmOrder()
+      .then(() => router.push("/order"))
+      .catch((res) => alert("You need approve or discard each product " + res));
+  };
 
   return (
     <section className={styles.total}>
