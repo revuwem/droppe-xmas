@@ -21,4 +21,10 @@
 .list {
   display: grid;
   row-gap: 2.4rem;
+  padding-bottom: 2.4rem;
+}
+
+.message {
+  font-size: 1.4rem;
+  padding-left: 1.2rem;
 }
