@@ -58,6 +58,14 @@ export const orderPriceDetailsSelector = (state: IWishlistState) => {
   return { discount, total };
 };
 
+export const approvedWishlistSelector = (state: IWishlistState) => {
+  return getWishlistsByStatus(state.wishlists, true);
+};
+
+export const discardedWishlistSelector = (state: IWishlistState) => {
+  return getWishlistsByStatus(state.wishlists, false);
+};
+
 const getWishlistsByStatus = (wishlists: Wishlist[], isApproved: boolean) => {
   return wishlists.map((wishlist) => ({
     ...wishlist,
