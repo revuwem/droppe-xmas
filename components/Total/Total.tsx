@@ -2,6 +2,7 @@ import Button from "../Button";
 import { useWishlistStore } from "../../store/store";
 import {
   orderDetailsSelector,
+  orderPriceDetailsSelector,
   productsCountSelector,
 } from "../../store/selectors";
 import styles from "./Total.module.css";
@@ -13,8 +14,9 @@ interface ITotalProps {
 const Total: React.FC<ITotalProps> = ({ isConfirm = false }) => {
   const orderDetails = useWishlistStore(orderDetailsSelector);
   const productsCount = useWishlistStore(productsCountSelector);
-  // const discount;
-  // const total;
+  const orderPriceDetails = !isConfirm
+    ? useWishlistStore(orderPriceDetailsSelector)
+    : null;
 
   const onConfirmButtonClick = () => {};
 
@@ -41,12 +43,18 @@ const Total: React.FC<ITotalProps> = ({ isConfirm = false }) => {
           <span>{productsCount.discarded} gift(s)</span>
         </li>
       </ul>
-      <ul className={styles.list}>
-        <li className={styles.listItem}>
-          <span>Discount</span>
-          <span> - €345</span>
-        </li>
-      </ul>
+      {orderPriceDetails && (
+        <ul className={styles.list}>
+          <li className={styles.listItem}>
+            <span>Discount</span>
+            <span> {orderPriceDetails?.discount}</span>
+          </li>
+          <li className={styles.listItem}>
+            <span>Total</span>
+            <span> {orderPriceDetails?.total}</span>
+          </li>
+        </ul>
+      )}
       {isConfirm && (
         <Button onClick={onConfirmButtonClick}>Confirm order</Button>
       )}

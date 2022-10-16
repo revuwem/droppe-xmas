@@ -1,3 +1,5 @@
+import { calculateDiscount } from "../lib/calculateDiscount";
+import { calculateTotal } from "../lib/calculateTotal";
 import { Wishlist } from "../types/Wishlist";
 import { IWishlistState } from "./store";
 
@@ -44,6 +46,16 @@ export const productsCountSelector = (state: IWishlistState) => {
   const discarded = getAllWishlistsProductsCount(discardedList);
 
   return { approved, discarded };
+};
+
+export const orderPriceDetailsSelector = (state: IWishlistState) => {
+  // get approved wishlists
+  const wishlists = getWishlistsByStatus(state.wishlists, true);
+
+  const discount = calculateDiscount(wishlists).toFixed(2);
+  const total = (calculateTotal(wishlists) - discount).toFixed(2);
+
+  return { discount, total };
 };
 
 const getWishlistsByStatus = (wishlists: Wishlist[], isApproved: boolean) => {
