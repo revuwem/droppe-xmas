@@ -8,7 +8,7 @@ import ErrorIndicator from "../components/ErrorIndicator";
 import SystemMessage from "../components/SystemMessage";
 import { useWishlistStore } from "../store/store";
 import { wishlistSelector } from "../store/selectors";
-import styles from "../styles/Home.module.css";
+import styles from "../styles/Page.module.css";
 import Total from "../components/Total";
 
 const Home: NextPage = () => {
