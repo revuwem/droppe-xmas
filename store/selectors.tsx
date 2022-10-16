@@ -49,13 +49,7 @@ export const productsCountSelector = (state: IWishlistState) => {
 };
 
 export const orderPriceDetailsSelector = (state: IWishlistState) => {
-  // get approved wishlists
-  const wishlists = getWishlistsByStatus(state.wishlists, true);
-
-  const discount = calculateDiscount(wishlists).toFixed(2);
-  const total = (calculateTotal(wishlists) - discount).toFixed(2);
-
-  return { discount, total };
+  return { discount: state.discount, total: state.total };
 };
 
 export const approvedWishlistSelector = (state: IWishlistState) => {
