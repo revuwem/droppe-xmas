@@ -1,6 +1,9 @@
 import Button from "../Button";
 import { useWishlistStore } from "../../store/store";
-import { orderDetailsSelector } from "../../store/selectors";
+import {
+  orderDetailsSelector,
+  productsCountSelector,
+} from "../../store/selectors";
 import styles from "./Total.module.css";
 
 interface ITotalProps {
@@ -9,10 +12,9 @@ interface ITotalProps {
 
 const Total: React.FC<ITotalProps> = ({ isConfirm = false }) => {
   const orderDetails = useWishlistStore(orderDetailsSelector);
+  const productsCount = useWishlistStore(productsCountSelector);
   // const discount;
   // const total;
-  // const approvedCount;
-  // const discardedCount;
 
   const onConfirmButtonClick = () => {};
 
@@ -32,7 +34,11 @@ const Total: React.FC<ITotalProps> = ({ isConfirm = false }) => {
       <ul className={styles.list}>
         <li className={styles.listItem}>
           <span>Approved</span>
-          <span>12 gifts</span>
+          <span>{productsCount.approved} gift(s)</span>
+        </li>
+        <li className={styles.listItem}>
+          <span>Discarded</span>
+          <span>{productsCount.discarded} gift(s)</span>
         </li>
       </ul>
       <ul className={styles.list}>
