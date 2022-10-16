@@ -2,15 +2,19 @@ import { Product as ProductT } from "../../types/Wishlist";
 import Product from "../Product";
 import Button from "../Button";
 import styles from "./Wishlist.module.css";
-import SystemMessage from "../SystemMessage";
 import { useWishlistStore } from "../../store/store";
 
 interface IWishlistProps {
   id: number;
   products: ProductT[];
+  readonly?: boolean;
 }
 
-const Wishlist: React.FC<IWishlistProps> = ({ id: wishlistId, products }) => {
+const Wishlist: React.FC<IWishlistProps> = ({
+  id: wishlistId,
+  products,
+  readonly = false,
+}) => {
   const updateWishlistItem = useWishlistStore(
     (state) => state.updateWishlistItem
   );
@@ -28,28 +32,32 @@ const Wishlist: React.FC<IWishlistProps> = ({ id: wishlistId, products }) => {
     <div className={styles.wishlist}>
       <div className={styles.header}>
         <h3 className={styles.title}>Kid {wishlistId} wishlist</h3>
-        <div className={styles.userControls}>
-          <Button onClick={onDiscardWishlist} type="outlined">
-            Discard All
-          </Button>
+        {!readonly && (
+          <div className={styles.userControls}>
+            <Button onClick={onDiscardWishlist} type="outlined">
+              Discard All
+            </Button>
 
-          <Button onClick={onApproveWishlist}>Approve All Gifts</Button>
-        </div>
+            <Button onClick={onApproveWishlist}>Approve All Gifts</Button>
+          </div>
+        )}
       </div>
       <ul className={styles.list}>
         {products.length > 0 ? (
-          products.map((item) => (
-            <Product
-              key={item.productId}
-              product={item}
-              onApprove={onApproveWishlistItem}
-              onDiscard={onDiscardWishlistItem}
-            />
-          ))
+          products.map((item) =>
+            !readonly ? (
+              <Product
+                key={item.productId}
+                product={item}
+                onApprove={onApproveWishlistItem}
+                onDiscard={onDiscardWishlistItem}
+              />
+            ) : (
+              <Product key={item.productId} product={item} />
+            )
+          )
         ) : (
-          <SystemMessage>
-            No products found. Try change or reset filter
-          </SystemMessage>
+          <p className={styles.message}>No products found.</p>
         )}
       </ul>
     </div>
