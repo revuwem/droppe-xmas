@@ -1,0 +1,42 @@
+.total {
+  width: 100%;
+  max-width: 48rem;
+  height: fit-content;
+  padding: 2.4rem 2.4rem 1.6rem;
+  border: 1px solid var(--color-grey-light);
+  border-radius: var(--border-radius);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 4.2rem;
+}
+
+.heading {
+  font-size: 1.6rem;
+  color: var(--color-heading);
+  margin-bottom: 1.2rem;
+}
+
+.list {
+  list-style: none;
+  font-size: 1.4rem;
+  margin-bottom: 2.4rem;
+  padding-bottom: 1.2rem;
+}
+
+.list:not(:last-of-type) {
+  border-bottom: 1px solid var(--color-grey-light);
+}
+
+.listItem {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.listItem > *:first-child {
+  flex-grow: 2;
+}
+
+.muted {
+  color: var(--color-grey-dark);
+}

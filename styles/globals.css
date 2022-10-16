@@ -49,6 +49,7 @@ a {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 6.4rem;
+  position: relative;
 }
 
 .list {

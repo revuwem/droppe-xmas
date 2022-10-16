@@ -9,6 +9,7 @@ import SystemMessage from "../components/SystemMessage";
 import { useWishlistStore } from "../store/store";
 import { wishlistSelector } from "../store/selectors";
 import styles from "../styles/Home.module.css";
+import Total from "../components/Total";
 
 const Home: NextPage = () => {
   const loading = useWishlistStore((state) => state.loading);
@@ -78,6 +79,7 @@ const Home: NextPage = () => {
               : null}
           </div>
         </div>
+        <Total isConfirm />
       </div>
     </>
   );
