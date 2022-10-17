@@ -33,7 +33,7 @@ const Total: React.FC<ITotalProps> = ({ isConfirm = false }) => {
       <ul className={styles.list}>
         {orderDetails.length > 0 &&
           orderDetails.map((orderDetails) => (
-            <li className={styles.listItem}>
+            <li key={orderDetails.name} className={styles.listItem}>
               <span>{orderDetails.name}</span>
               <span className={styles.muted}>{orderDetails.count} gift(s)</span>
               <span>{orderDetails.total}</span>
