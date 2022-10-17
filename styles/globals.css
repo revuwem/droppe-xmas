@@ -52,6 +52,13 @@ a {
   position: relative;
 }
 
+@media (max-width: 1024px) {
+  .pageContainer {
+    grid-template-columns: 1fr;
+    gap: 4.8rem;
+  }
+}
+
 .list {
   display: grid;
   row-gap: 3.2rem;
