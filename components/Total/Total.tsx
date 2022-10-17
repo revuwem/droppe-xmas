@@ -16,9 +16,7 @@ interface ITotalProps {
 const Total: React.FC<ITotalProps> = ({ isConfirm = false }) => {
   const orderDetails = useWishlistStore(orderDetailsSelector);
   const productsCount = useWishlistStore(productsCountSelector);
-  const orderPriceDetails = !isConfirm
-    ? useWishlistStore(orderPriceDetailsSelector)
-    : null;
+  const orderPriceDetails = useWishlistStore(orderPriceDetailsSelector);
   const confirmOrder = useWishlistStore((state) => state.confirmOrder);
   const router = useRouter();
 
@@ -58,7 +56,7 @@ const Total: React.FC<ITotalProps> = ({ isConfirm = false }) => {
           <span>{productsCount.discarded} gift(s)</span>
         </li>
       </ul>
-      {orderPriceDetails && (
+      {!isConfirm && (
         <ul className={styles.list} data-testid="orderPriceDetails">
           <li className={styles.listItem}>
             <span>Discount</span>
