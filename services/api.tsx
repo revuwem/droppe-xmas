@@ -30,4 +30,10 @@ const getProductData = async (product: Product) => {
   return { ...product, totalPrice, details: data };
 };
 
+export const saveApprovedWishlists = (wishlists: Wishlist[]) =>
+  new Promise((resolve, reject) => setTimeout(() => resolve(true), 2000));
+
+export const saveDiscardedWishlists = (wishlists: Wishlist[]) =>
+  new Promise((resolve, reject) => setTimeout(() => resolve(true), 2000));
+
 export { getAllWishlists };

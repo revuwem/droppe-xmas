@@ -1,5 +1,9 @@
 import create from "zustand";
-import { getAllWishlists } from "../services/api";
+import {
+  getAllWishlists,
+  saveApprovedWishlists,
+  saveDiscardedWishlists,
+} from "../services/api";
 import { Wishlist } from "../types/Wishlist";
 import { calculateDiscount } from "../lib/calculateDiscount";
 import { calculateTotal } from "../lib/calculateTotal";
@@ -91,22 +95,36 @@ export const useWishlistStore = create<IWishlistState>()((set, get) => ({
   setFilterPriceMin: (price) => set({ filterPriceMin: price }),
   setFilterPriceMax: (price) => set({ filterPriceMax: price }),
   confirmOrder: () =>
-    new Promise((resolve, reject) => {
+    new Promise(async (resolve, reject) => {
+      // check if all wishlists products has status approved or discarded
       const uncheckedWishlists = getWishlistsByStatus(
         get().wishlists,
         undefined
       );
       const uncheckedProductsCount =
         getAllWishlistsProductsCount(uncheckedWishlists);
-      if (uncheckedProductsCount > 0) reject(uncheckedProductsCount);
+      if (uncheckedProductsCount > 0)
+        reject("You need approve or discard each product");
 
-      // get approved wishlists
       const approvedWishlists = getWishlistsByStatus(get().wishlists, true);
+      const discardedWishlists = getWishlistsByStatus(get().wishlists, false);
 
+      // calculate order price dietails
       const discount = calculateDiscount(approvedWishlists).toFixed(2);
       const total = (calculateTotal(approvedWishlists) - discount).toFixed(2);
       set({ discount, total });
-      resolve();
+
+      // push approved and discarded wishlists to API
+      const isApprovedWishlistsSaved = await saveApprovedWishlists(
+        approvedWishlists
+      );
+      const isDiscardedWishlistsSaved = await saveDiscardedWishlists(
+        discardedWishlists
+      );
+
+      isApprovedWishlistsSaved && isDiscardedWishlistsSaved
+        ? resolve()
+        : reject("Failed to save wishlists");
     }),
 }));
 
