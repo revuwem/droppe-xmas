@@ -20,6 +20,17 @@ const FilterPriceForm: React.FC<IFilterPriceForm> = ({ onSubmit, onReset }) => {
 
   const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (isNaN(Number(priceMin)) || isNaN(Number(priceMax))) {
+      alert("Price must be a number");
+      return;
+    }
+
+    if (Number(priceMin) > Number(priceMax)) {
+      alert("Incorrect price range");
+      return;
+    }
+
     onSubmit({ min: Number(priceMin), max: Number(priceMax) });
   };
 
