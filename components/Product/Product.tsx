@@ -25,7 +25,7 @@ const Product: React.FC<IProductProps> = ({
       <div>
         <h4 className={styles.title}>{title}</h4>
         <p className={styles.details}>
-          {category} | Rate: {rating.rate} / 5 | Qty: {quantity}
+          {category} | Rate: {rating.rate} / 5
         </p>
         <p
           className={`${styles.status} ${
@@ -40,7 +40,9 @@ const Product: React.FC<IProductProps> = ({
         </p>
       </div>
       <div>
-        <p className={styles.price}>€{totalPrice}</p>
+        <p className={styles.price}>
+          qty: {quantity}&nbsp;|&nbsp;€{totalPrice}
+        </p>
 
         <div className={styles.userControls}>
           {onDiscard && (typeof isApproved === "undefined" || isApproved) && (
