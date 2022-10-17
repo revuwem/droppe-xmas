@@ -29,7 +29,7 @@ const Wishlist: React.FC<IWishlistProps> = ({
     updateWishlistItem(wishlistId, id, false);
 
   return (
-    <div className={styles.wishlist}>
+    <div className={styles.wishlist} data-testid="wishlist">
       <div className={styles.header}>
         <h3 className={styles.title}>Kid {wishlistId} wishlist</h3>
         {!readonly && (
