@@ -28,9 +28,9 @@ const Total: React.FC<ITotalProps> = ({ isConfirm = false }) => {
   };
 
   return (
-    <section className={styles.total}>
+    <section className={styles.total} data-testid="total">
       <h3 className={styles.heading}>Total</h3>
-      <ul className={styles.list}>
+      <ul className={styles.list} data-testid="orderDetails">
         {orderDetails.length > 0 &&
           orderDetails.map((orderDetails) => (
             <li key={orderDetails.name} className={styles.listItem}>
@@ -41,17 +41,17 @@ const Total: React.FC<ITotalProps> = ({ isConfirm = false }) => {
           ))}
       </ul>
       <ul className={styles.list}>
-        <li className={styles.listItem}>
+        <li className={styles.listItem} data-testid="productsCountApproved">
           <span>Approved</span>
           <span>{productsCount.approved} gift(s)</span>
         </li>
-        <li className={styles.listItem}>
+        <li className={styles.listItem} data-testid="productsCountDiscarded">
           <span>Discarded</span>
           <span>{productsCount.discarded} gift(s)</span>
         </li>
       </ul>
       {orderPriceDetails && (
-        <ul className={styles.list}>
+        <ul className={styles.list} data-testid="orderPriceDetails">
           <li className={styles.listItem}>
             <span>Discount</span>
             <span> - €{orderPriceDetails?.discount}</span>
